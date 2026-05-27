@@ -18,17 +18,25 @@ body{
     padding:0;
     background:#f0f2f5;
     font-family:"Noto Sans", Arial, sans-serif;
-    height:100vh;
+
+    /* 修正 */
+    height:100dvh;
     overflow:hidden;
 }
 
 .container{
     width:100%;
-    height:100vh;
+    height:100dvh;
+
     display:flex;
     flex-direction:column;
+
     background:#fff;
+
     padding:6px;
+
+    /* 下端切れ防止 */
+    overflow:hidden;
 }
 
 h2{
@@ -40,32 +48,51 @@ h2{
 
 #display{
     flex:1;
+
     width:100%;
-    min-height:120px;
+
+    min-height:100px;
+
     padding:10px;
+
     border:2px solid #ccd0d5;
     border-radius:10px;
+
     font-size:20px;
+
     white-space:pre-wrap;
+
     overflow-y:auto;
+
     font-family:"Noto Sans", Arial, sans-serif;
 }
 
 /* ACTION BUTTONS */
+
 .actions{
     display:flex;
+
     gap:5px;
+
     margin-top:6px;
+
+    /* ここ追加 */
+    margin-bottom:4px;
 }
 
 .action-btn{
     flex:1;
+
     height:38px;
+
     border:none;
     border-radius:8px;
+
     font-weight:600;
     font-size:14px;
+
     cursor:pointer;
+
     background:#e9ecef;
 }
 
@@ -75,11 +102,17 @@ h2{
 }
 
 /* KEYBOARD */
+
 .keyboard{
-    margin-top:auto;
     display:flex;
     flex-direction:column;
+
     gap:4px;
+
+    margin-top:auto;
+
+    /* はみ出し対策 */
+    flex-shrink:0;
 }
 
 .row{
@@ -97,15 +130,21 @@ h2{
 
 .key{
     height:43px;
+
     border:none;
     border-radius:8px;
+
     background:#fff;
+
     box-shadow:0 1px 3px rgba(0,0,0,0.12);
+
     font-size:17px;
     font-weight:600;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-family:"Noto Sans", Arial, sans-serif;
 }
 
@@ -129,9 +168,17 @@ h2{
 
 .footer{
     margin-top:6px;
+
     font-size:10px;
+
     text-align:center;
+
     color:#666;
+
+    /* 下切れ防止 */
+    flex-shrink:0;
+
+    padding-bottom:2px;
 }
 
 </style>
@@ -227,6 +274,7 @@ h2{
 <div class="row row6">
 
 <button class="key special" id="shift">Shift</button>
+
 <button class="key special" id="caps">Caps</button>
 
 <button class="key" id="space">Space</button>
@@ -270,6 +318,7 @@ function updateKeys(){
     });
 
     document.getElementById("shift").classList.toggle("lock", shift);
+
     document.getElementById("caps").classList.toggle("lock", caps);
 
     document.getElementById("space").textContent =
@@ -277,47 +326,72 @@ function updateKeys(){
 }
 
 function insert(btn){
-    buffer += isUpper() ? btn.dataset.upp : btn.dataset.low;
+
+    buffer += isUpper()
+        ? btn.dataset.upp
+        : btn.dataset.low;
+
     shift = false;
+
     updateKeys();
+
     render();
 }
 
 function backspace(){
+
     buffer = buffer.slice(0, -1);
+
     render();
 }
 
 function toggleShift(){
+
     shift = !shift;
+
     updateKeys();
 }
 
 function toggleCaps(){
+
     caps = !caps;
+
     updateKeys();
 }
 
 function insertSpace(){
-    buffer += isUpper() ? "\t" : " ";
+
+    buffer += isUpper()
+        ? "\t"
+        : " ";
+
     shift = false;
+
     updateKeys();
+
     render();
 }
 
 function clearAll(){
+
     buffer = "";
+
     render();
 }
 
 async function copyAll(){
+
     if(!buffer) return;
+
     await navigator.clipboard.writeText(buffer);
 }
 
 /* EVENTS */
+
 document.querySelectorAll(".letter").forEach(btn=>{
+
     btn.addEventListener("click", ()=>insert(btn));
+
 });
 
 document.getElementById("back").onclick = backspace;
@@ -329,7 +403,9 @@ document.getElementById("caps").onclick = toggleCaps;
 document.getElementById("space").onclick = insertSpace;
 
 document.getElementById("enter").onclick = ()=>{
+
     buffer += "\n";
+
     render();
 };
 
@@ -338,6 +414,7 @@ document.getElementById("clear").onclick = clearAll;
 document.getElementById("copyAll").onclick = copyAll;
 
 updateKeys();
+
 render();
 
 </script>
