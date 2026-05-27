@@ -19,7 +19,6 @@ body{
     background:#f0f2f5;
     font-family:"Noto Sans", Arial, sans-serif;
 
-    /* 修正 */
     height:100dvh;
     overflow:hidden;
 }
@@ -35,7 +34,6 @@ body{
 
     padding:6px;
 
-    /* 下端切れ防止 */
     overflow:hidden;
 }
 
@@ -43,7 +41,6 @@ h2{
     margin:0 0 6px 0;
     font-size:18px;
     text-align:center;
-    font-family:"Noto Sans", Arial, sans-serif;
 }
 
 #display{
@@ -63,36 +60,25 @@ h2{
     white-space:pre-wrap;
 
     overflow-y:auto;
-
-    font-family:"Noto Sans", Arial, sans-serif;
 }
 
 /* ACTION BUTTONS */
 
 .actions{
     display:flex;
-
     gap:5px;
-
     margin-top:6px;
-
-    /* ここ追加 */
-    margin-bottom:4px;
+    margin-bottom:6px;
 }
 
 .action-btn{
     flex:1;
-
     height:38px;
-
     border:none;
     border-radius:8px;
-
     font-weight:600;
     font-size:14px;
-
     cursor:pointer;
-
     background:#e9ecef;
 }
 
@@ -106,12 +92,8 @@ h2{
 .keyboard{
     display:flex;
     flex-direction:column;
-
     gap:4px;
-
     margin-top:auto;
-
-    /* はみ出し対策 */
     flex-shrink:0;
 }
 
@@ -128,15 +110,10 @@ h2{
     grid-template-columns:1fr 1fr 2.2fr 0.8fr 1.4fr;
 }
 
+/* ===== KEY IMPROVED VISIBILITY ===== */
+
 .key{
     height:43px;
-
-    border:none;
-    border-radius:8px;
-
-    background:#fff;
-
-    box-shadow:0 1px 3px rgba(0,0,0,0.12);
 
     font-size:17px;
     font-weight:600;
@@ -146,6 +123,19 @@ h2{
     justify-content:center;
 
     font-family:"Noto Sans", Arial, sans-serif;
+
+    border-radius:8px;
+
+    /* ③ 背景を少し暗く */
+    background:#f8f9fa;
+
+    /* ① 境界線 */
+    border:1px solid #cfd4da;
+
+    /* ② 影を強化 */
+    box-shadow:
+        0 1px 2px rgba(0,0,0,0.12),
+        0 2px 6px rgba(0,0,0,0.08);
 }
 
 .key:active{
@@ -156,28 +146,19 @@ h2{
     background:#dee2e6;
 }
 
-.action{
-    background:#4dabf7;
-    color:#fff;
-}
-
 .lock{
     background:#228be6;
     color:#fff;
 }
 
+/* FOOTER */
+
 .footer{
     margin-top:6px;
-
     font-size:10px;
-
     text-align:center;
-
     color:#666;
-
-    /* 下切れ防止 */
     flex-shrink:0;
-
     padding-bottom:2px;
 }
 
@@ -274,7 +255,6 @@ h2{
 <div class="row row6">
 
 <button class="key special" id="shift">Shift</button>
-
 <button class="key special" id="caps">Caps</button>
 
 <button class="key" id="space">Space</button>
@@ -318,7 +298,6 @@ function updateKeys(){
     });
 
     document.getElementById("shift").classList.toggle("lock", shift);
-
     document.getElementById("caps").classList.toggle("lock", caps);
 
     document.getElementById("space").textContent =
@@ -326,95 +305,64 @@ function updateKeys(){
 }
 
 function insert(btn){
-
-    buffer += isUpper()
-        ? btn.dataset.upp
-        : btn.dataset.low;
-
+    buffer += isUpper() ? btn.dataset.upp : btn.dataset.low;
     shift = false;
-
     updateKeys();
-
     render();
 }
 
 function backspace(){
-
     buffer = buffer.slice(0, -1);
-
     render();
 }
 
 function toggleShift(){
-
     shift = !shift;
-
     updateKeys();
 }
 
 function toggleCaps(){
-
     caps = !caps;
-
     updateKeys();
 }
 
 function insertSpace(){
-
-    buffer += isUpper()
-        ? "\t"
-        : " ";
-
+    buffer += isUpper() ? "\t" : " ";
     shift = false;
-
     updateKeys();
-
     render();
 }
 
 function clearAll(){
-
     buffer = "";
-
     render();
 }
 
 async function copyAll(){
-
     if(!buffer) return;
-
     await navigator.clipboard.writeText(buffer);
 }
 
 /* EVENTS */
 
 document.querySelectorAll(".letter").forEach(btn=>{
-
     btn.addEventListener("click", ()=>insert(btn));
-
 });
 
 document.getElementById("back").onclick = backspace;
-
 document.getElementById("shift").onclick = toggleShift;
-
 document.getElementById("caps").onclick = toggleCaps;
-
 document.getElementById("space").onclick = insertSpace;
 
 document.getElementById("enter").onclick = ()=>{
-
     buffer += "\n";
-
     render();
 };
 
 document.getElementById("clear").onclick = clearAll;
-
 document.getElementById("copyAll").onclick = copyAll;
 
 updateKeys();
-
 render();
 
 </script>
