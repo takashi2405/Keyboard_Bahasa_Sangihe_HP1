@@ -15,43 +15,46 @@
 
 body{
     margin:0;
-    padding:4px; /* 余白を縮小 */
+    padding:0;
     background:#f0f2f5;
     font-family:"Noto Sans", Arial, sans-serif;
+    height:100vh;
+    overflow:hidden;
 }
 
 .container{
     width:100%;
-    max-width:100%;
-    margin:0 auto;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
     background:#fff;
-    border-radius:10px;
-    padding:8px; /* 内側余白を縮小 */
-    box-shadow:0 2px 8px rgba(0,0,0,0.10);
+    padding:6px;
 }
 
 h2{
-    margin:0 0 8px 0;
-    font-size:19px;
+    margin:0 0 6px 0;
+    font-size:18px;
     text-align:center;
     font-family:"Noto Sans", Arial, sans-serif;
 }
 
 #display{
+    flex:1;
     width:100%;
-    min-height:180px;
+    min-height:120px;
     padding:10px;
     border:2px solid #ccd0d5;
     border-radius:10px;
     font-size:20px;
     white-space:pre-wrap;
+    overflow-y:auto;
     font-family:"Noto Sans", Arial, sans-serif;
 }
 
 /* ACTION BUTTONS */
 .actions{
     display:flex;
-    gap:5px; /* 隙間縮小 */
+    gap:5px;
     margin-top:6px;
 }
 
@@ -73,15 +76,15 @@ h2{
 
 /* KEYBOARD */
 .keyboard{
-    margin-top:10px;
+    margin-top:auto;
     display:flex;
     flex-direction:column;
-    gap:4px; /* 行間縮小 */
+    gap:4px;
 }
 
 .row{
     display:grid;
-    gap:4px; /* キー間隔縮小 */
+    gap:4px;
 }
 
 .row10{
@@ -93,7 +96,7 @@ h2{
 }
 
 .key{
-    height:43px; /* 約2割縮小 */
+    height:43px;
     border:none;
     border-radius:8px;
     background:#fff;
@@ -125,7 +128,7 @@ h2{
 }
 
 .footer{
-    margin-top:10px;
+    margin-top:6px;
     font-size:10px;
     text-align:center;
     color:#666;
@@ -318,8 +321,11 @@ document.querySelectorAll(".letter").forEach(btn=>{
 });
 
 document.getElementById("back").onclick = backspace;
+
 document.getElementById("shift").onclick = toggleShift;
+
 document.getElementById("caps").onclick = toggleCaps;
+
 document.getElementById("space").onclick = insertSpace;
 
 document.getElementById("enter").onclick = ()=>{
@@ -328,6 +334,7 @@ document.getElementById("enter").onclick = ()=>{
 };
 
 document.getElementById("clear").onclick = clearAll;
+
 document.getElementById("copyAll").onclick = copyAll;
 
 updateKeys();
